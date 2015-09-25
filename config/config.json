@@ -1,23 +1,23 @@
 {
   "development": {
-    "database": "instore_development",
+    "database": "covalent_fit_development",
     "username": "",
     "password": "",
     "host": "localhost",
-    "dialect": "postgres"
+    "dialect": "mysql"
   },
   "test": {
-    "database": "instore_test",
+    "database": "ENTER_DB_TEST_NAME",
     "username": "root",
     "password": null,
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "mysql"
   },
   "production": {
-    "database": "instore_production",
+    "database": "ENTER_DB_PRODUCTION_NAME",
     "username": "root",
     "password": null,
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "mysql"
   }
 }
