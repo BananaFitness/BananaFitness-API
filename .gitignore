@@ -18,3 +18,8 @@ npm-debug.log
 Icon
 
 config/
+
+# From Heroku
+.env
+Dockerfile
+docker-compose.yml
