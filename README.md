@@ -8,5 +8,5 @@
   - Build front end using framework of your choice
 
 # Development
-  - Start mysql server
+  - Start postgresql server
   - nodemon app.js
