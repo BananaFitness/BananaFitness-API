@@ -1,3 +1,6 @@
+var bcrypt = require('bcrypt-nodejs');
+var Promise = require('bluebird');
+
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define('User', {
     id: {
@@ -19,6 +22,20 @@ module.exports = function(sequelize, DataTypes) {
         User.belongsToMany(models.User, {
           as: 'Friends',
           through: 'Friendships'
+        });
+      }
+    },
+    instanceMethods: {
+      comparePassword: function(attemptedPassword, callback) {
+        bcrypt.compare(attemptedPassword, this.get('password'), function(err, isMatch) {
+          callback(isMatch);
+        });
+      },
+      hashPassword: function(){
+        var cipher = Promise.promisify(bcrypt.hash);
+        return cipher(this.get('password'), null, null).bind(this)
+          .then(function(hash) {
+            this.set('password', hash);
         });
       }
     }
