@@ -1,6 +1,6 @@
 {
   "development": {
-    "database": "covalent_fit_development",
+    "database": "covalent_fitness_development",
     "username": "",
     "password": "",
     "host": "localhost",

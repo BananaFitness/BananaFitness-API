@@ -1,7 +1,9 @@
 {
   "name": "express-node-postgresql-api",
   "main": "server.js",
-  "scripts": { "start" : "node app.js" },
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
     "body-parser": "~1.13.2",
     "express": "~4.13.1",

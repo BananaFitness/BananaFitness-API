@@ -3,19 +3,23 @@ module.exports = function(sequelize, DataTypes) {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
       primaryKey: true
     },
-    firstName: {
-      type: DataTypes.STRING
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false
     },
-    lastName: {
+    password: {
       type: DataTypes.STRING
     }
   }, {
     classMethods: {
       associate: function(models) {
-        // Inventory.belongsTo(models.Product);
-        // Inventory.belongsTo(models.Store);
+        User.belongsToMany(models.User, {
+          as: 'Friends',
+          through: 'Friendships'
+        });
       }
     }
   });

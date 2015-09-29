@@ -3,16 +3,26 @@ module.exports = function(sequelize, DataTypes) {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
       primaryKey: true
     },
     name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    category: {
       type: DataTypes.STRING
+    },
+    weight: {
+      type: DataTypes.INTEGER
+    },
+    reps: {
+      type: DataTypes.INTEGER
     }
   }, {
     classMethods: {
       associate: function(models) {
-        // Inventory.belongsTo(models.Product);
-        // Inventory.belongsTo(models.Store);
+        Move.belongsTo(models.Workout);
       }
     }
   });

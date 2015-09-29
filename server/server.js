@@ -10,7 +10,7 @@ var db = require(__dirname + '/models/index');
 
 // Sync the database models
 db.sequelize.sync({
-  // force: true
+  force: true
 });
 
 // Create an express app
@@ -49,62 +49,145 @@ router.get('/', function (req, res) {
   });
 });
 
-// On routes that end in /product
-router.route('/user')
+// USER ROUTES -------------------------------
 
-  // Ideally post will create a product
+router.route('/users')
+  // Gets all users
+  .get(function (req, res) {
+    db.User.findAll().then(function (users) {
+      res.json(users);
+    });
+  });
+  // Possible search by other parameters via GET
+
+router.route('/user/:username')
+  // Gets a user by username
+  .get(function (req, res) {
+    db.User.findAll({
+      where: {
+        username: req.params.username
+      }
+    }).then(function (user) {
+      res.json(user);
+    })
+  });
+
+router.route('/user')
+  // Create a new user
   .post(function (req, res) {
     db.User.findOrCreate({
       where: {
-        name: req.body.name,
-        pictureUrl: req.body.pictureUrl,
-        description: req.body.description,
-        manufacturer: req.body.manufacturer,
-        category: req.body.category,
-        type: req.body.type
+        username: req.body.user,
+        password: req.body.password
       }
-    }).spread(function (product, created) {
+    }).spread(function (user, created) {
       if (!created) {
-        console.log('Product already exists and was not created');
+        console.log('User already exists!');
+        // Handle sending error about user not existing
       } else {
-        console.log('Product created!');
+        console.log('User created!');
       }
-      res.json(product);
-    });
-    
+      res.json(user);
+    })
+  })
+  // Sign in a user
+  .post(function (req, res) {
+    db.User.findAll({
+      where: {
+        username: req.body.user
+      }
+    }).then(function (user) {
+      // Check if user existed
+      // Check the user's password via req.body.password
+    })
   });
 
-// On routes that end in /products
-router.route('/products/:location/:searchTerm/:category')
+// WORKOUT ROUTES -------------------------------
 
-  // Ideally get will retrieve all products given search parameters in url
-  // .get(function (req, res) {
-
-  //   var search = {
-  //     'searchParams' :{
-  //       'location': req.params.location,
-  //       'searchTerm': req.params.searchTerm,
-  //       'category': req.params.category
-  //     }
-  //   }
-
-  //   res.json(search);
-
-  //   // db.Product.findAll().then(function (products) {
-  //   //   // Ideally, this sends an html response via res.sendFile()
-  //   //   res.json(products);
-  //   // });
-  // });
-
+router.route('/workouts')
+  // Gets all workouts
   .get(function (req, res) {
-
-    db.Product.findAll().then(function (products) {
-      // Ideally, this sends an html response via res.sendFile()
-      res.json(products);
+    db.Workout.findAll().then(function (workouts) {
+      res.json(workouts);
     });
+  });
+  // Possible search by other parameters via GET
 
+router.route('/workouts/:username')
+  .get(function (req, res) {
+    db.Workout.findAll({
+      where: {
+        username: req.params.username
+      }
+    }).then(function (workouts) {
+      res.json(workouts);
+    })
   });
 
+router.route('/workout')
+  // Creates a new workout for a user
+  // When we create a workout, we'll have to make calls to create new moves
+  .post(function (req, res) {
+    db.Workout.findOrCreate({
+      where: {
+        UserId: req.body.userid,
+        name: req.body.name
+      }
+    }).spread(function (workout, created) {
+      if (!created) {
+        console.log('Workout already exists!');
+        // Handle sending error about workout not existing
+      } else {
+        console.log('Workout created!');
+      }
+      res.json(workout);
+    })
+  });
+
+// MOVE ROUTES -------------------------------
+
+router.route('/moves')
+  // Gets all moves
+  .get(function (req, res) {
+    db.Move.findAll().then(function (moves) {
+      res.json(moves);
+    });
+  });
+  // Possible search by other parameters via GET
+
+router.route('/moves/:workoutid')
+  // Gets all moves by workoutId
+  .get(function (req, res) {
+    db.Move.findAll({
+      where: {
+        WorkoutId: req.params.workoutid
+      }
+    }).then(function (moves) {
+      res.json(moves);
+    })
+  });
+
+router.route('/move')
+  // Creates new moves for a workout
+  .post(function (req, res) {
+    db.Move.findOrCreate({
+      where: {
+        WorkoutId: req.body.workoutid,
+        name: req.body.name,
+        category: req.body.category,
+        weight: req.body.weight,
+        reps: req.body.reps
+      }
+    }).spread(function (move, created) {
+      if (!created) {
+        console.log('Move already exists!');
+        // Handle sending error about move not existing
+      } else {
+        console.log('Move created!');
+      }
+      res.json(workout);
+    })
+  });
 
 // REGISTER OUR ROUTES -------------------------------
 
@@ -118,6 +201,6 @@ router.route('/products/:location/:searchTerm/:category')
 // app.use('/api', router);
 
 // All of our routes will be prefixed with /
-app.use('/', router);
+app.use('/api', router);
 
 module.exports = app;

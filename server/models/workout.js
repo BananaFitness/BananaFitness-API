@@ -3,6 +3,7 @@ module.exports = function(sequelize, DataTypes) {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
       primaryKey: true
     },
     name: {
@@ -11,8 +12,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        // Inventory.belongsTo(models.Product);
-        // Inventory.belongsTo(models.Store);
+        Workout.belongsTo(models.User);
       }
     }
   });
