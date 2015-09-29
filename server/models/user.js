@@ -16,7 +16,12 @@ module.exports = function(sequelize, DataTypes) {
     password: {
       type: DataTypes.STRING
     }
-  }, {
+  }, {  
+    hooks: {
+    afterCreate: function (instance, options) {
+      instance.hashPassword();
+      }
+    },
     classMethods: {
       associate: function(models) {
         User.belongsToMany(models.User, {
@@ -36,6 +41,7 @@ module.exports = function(sequelize, DataTypes) {
         return cipher(this.get('password'), null, null).bind(this)
           .then(function(hash) {
             this.set('password', hash);
+            this.save();
         });
       }
     }
