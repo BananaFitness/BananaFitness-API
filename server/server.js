@@ -2,9 +2,49 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var db = require(__dirname + '/models/index');
 
+// If true, whole database is dropped on start
+var refreshData = true;
 // Sync the database models
 db.sequelize.sync({
-  force: true //If true, the whole DB is dropped on every server start
+  force: refreshData
+}).then(function () {
+  if (refreshData) {
+    // Write all company data
+    var data = require('../data.json');
+
+    var userData = data['users'];
+    console.log(userData);
+    for (var i = 0; i < userData.length; i++) {
+      db.User.findOrCreate({
+        where: {
+          username: userData[i]['username'].toString(),
+          password: userData[i]['password'].toString(),
+        }
+      }).spread(function (user, created) {
+        if (!created) {
+          console.log('User ' + user['name'] + ' not created!');
+        } else {
+          console.log('User ' + user['name'] + ' created!');
+        }
+      });
+    }
+
+    var workoutData = data['workouts'];
+    console.log(workoutData);
+    for (var i = 0; i < workoutData.length; i++) {
+      db.Workout.findOrCreate({
+        where: {
+          name: workoutData[i]['name'].toString(),
+        }
+      }).spread(function (workout, created) {
+        if (!created) {
+          console.log('Workout ' + workout['name'] + ' not created!');
+        } else {
+          console.log('Workout ' + workout['name'] + ' created!');
+        }
+      });
+    }
+  }
 });
 
 // Create an express app

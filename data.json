@@ -1,0 +1,81 @@
+{
+  "users": [
+    {
+      "username": "dchie",
+      "password": "chiechie"
+    },
+    {
+      "username": "zsmith",
+      "password": "smithsonian"
+    },
+    {
+      "username": "bvibhagool",
+      "password": "vibhanocci"
+    },
+    {
+      "username": "lweaver",
+      "password": "weavinator"
+    }
+  ],
+
+  "workouts": [
+    {
+      "name": "6 Pack in 6 Days"
+    },
+    {
+      "name": "How to Lose to Win"
+    },
+    {
+      "name": "No Love to Love Handles"
+    },
+    {
+      "name": "Cut the Caboose"
+    },
+    {
+      "name": "Cupcakes Anonymous"
+    },
+    {
+      "name": "Mission Slimpossible"
+    },
+    {
+      "name": "Tons of Fun"
+    },
+    {
+      "name": "Absolutely Abs"
+    },
+    {
+      "name": "The Real Bootcamp"
+    }
+  ],
+
+  "moves": [
+    {
+      "name": "Pistol Squat"
+    },
+    {
+      "name": "Donkey Kicks"
+    },
+    {
+      "name": "Duck Walk"
+    },
+    {
+      "name": "Sumo Squat"
+    },
+    {
+      "name": "Star Jumps"
+    },
+    {
+      "name": "Inchworms"
+    },
+    {
+      "name": "Pushups"
+    },
+    {
+      "name": "Pullups"
+    },
+    {
+      "name": "Crunches"
+    }
+  ]
+  
+}
