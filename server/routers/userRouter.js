@@ -4,7 +4,6 @@ var db = require('../models/index');
 router.route('/')
   // Gets all users
   .get(function (req, res) {
-    db.User.create({username: 'ben', password: 'testing'});
     db.User.findAll().then(function (users) {
       res.json(users);
     });

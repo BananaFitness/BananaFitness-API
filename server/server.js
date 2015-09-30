@@ -4,7 +4,7 @@ var db = require(__dirname + '/models/index');
 
 // Sync the database models
 db.sequelize.sync({
-  //force: true //If true, the whole DB is dropped on every server start
+  force: true //If true, the whole DB is dropped on every server start
 });
 
 // Create an express app
@@ -39,7 +39,6 @@ var workoutRouter = require('./routers/workoutRouter');
 var moveRouter = require('./routers/moveRouter');
 var authRouter = require('./routers/authRouter');
 
-var authenticator = require('./authenticator');
 
 // All of our routes will console log a status
 app.use(function (req, res, next) {
