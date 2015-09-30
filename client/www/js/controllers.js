@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('ionfit.controllers', [])
 
 .controller('AppCtrl', function($scope) {
 
@@ -57,16 +57,43 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
+.controller('WorkoutsCtrl', function($scope, ExService) {
+  // will be for workout list and indv workout views
+  // hard coding a few workouts for example
+  $scope.workoutList = [{name: 'lower body'}, {name: 'arms'}, {name: 'chest/shoulder'}];
+  $scope.workout = [];
+
+  //functions for loading workouts/workout ==========
+
+  $scope.loadWorkoutList = function(){
+    //build out service to get workouts from server
+  ExService.workoutGetter().then(function(data){
+    $scope.workoutList = data;
+    console.log($scope.workoutList);
+    });
+  };
+
+  $scope.loadWorkout = function(){
+    // loads workout by id on click in workout view
+    //build service to get all moves for specific workout from server
+  };
+
+  $scope.loadWorkoutList();
+
+  //functions for workout sharing =========
+
+  $scope.share = function(workout) {
+    //still need to write this
+  };
+
+  $scope.use = function() {
+
+  };
+
+  //functions for workout edits/adds ==========
 })
+
+
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 });

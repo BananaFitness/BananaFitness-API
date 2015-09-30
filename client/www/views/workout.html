@@ -1,0 +1,24 @@
+<ion-view view-title="Workouts">
+    <ion-content>
+        <ion-list ng-controller="WorkoutsCtrl" show-delete="shouldShowDelete" show-reorder="shouldShowReorder" can-swipe="listCanSwipe">
+            <ion-item ng-repeat="move in workout" class="item-thumbnail-left">
+                <!-- <img ng-src="{{move.img}}"> if we want images-->
+                <h2>{{move.name}}</h2>
+                <h2>{{move.weight}}</h2>
+                <h2>{{move.sets}}</h2> 
+                <h2>{{move.reps}}</h2>
+                <!-- <p>{{move.description}}</p> if we want descriptions-->
+                <!-- <ion-option-button class="button-positive" ng-click="add(item)">
+                    Add
+                </ion-option-button> -->
+                <ion-option-button class="button-info" ng-click="edit(item)">
+                    Edit
+                </ion-option-button>
+                <ion-delete-button class="ion-minus-circled" ng-click="items.splice($index, 1)">
+                </ion-delete-button>
+                <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">
+                </ion-reorder-button>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,19 @@
+<ion-view view-title="Workouts">
+    <ion-content>
+        <ion-list ng-controller="WorkoutsCtrl" show-delete="shouldShowDelete" show-reorder="shouldShowReorder" can-swipe="listCanSwipe">
+            <ion-item ng-repeat="workout in workouts" class="item-thumbnail-left">
+                <!-- <img ng-src="{{workout.img}}"> if we want images-->
+                <h2>{{workout.name}}</h2>
+                <!-- <p>{{workout.description}}</p> if we want descriptions-->
+                <ion-option-button class="button-positive" ng-click="share(item)">
+                    Share
+                </ion-option-button>
+                <ion-option-button class="button-info" ng-click="use(item)">
+                    Use
+                </ion-option-button>
+                <ion-delete-button class="ion-minus-circled" ng-click="items.splice($index, 1)">
+                </ion-delete-button>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
