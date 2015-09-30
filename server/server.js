@@ -17,6 +17,17 @@ app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 // This will let us get the data from post
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+//Cookie parser
+app.use(require('cookie-parser')());
+//Session secret
+app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+
+//Passport authenticator
+var authenticator = require('./authenticator');
+
+//Initialize passport
+app.use(authenticator.initialize());
+app.use(authenticator.session());
 
 // Set our port
 var port = process.env.PORT || 8080;
@@ -26,6 +37,8 @@ var port = process.env.PORT || 8080;
 var userRouter = require('./routers/userRouter');
 var workoutRouter = require('./routers/workoutRouter');
 var moveRouter = require('./routers/moveRouter');
+var authRouter = require('./routers/authRouter');
+
 
 // All of our routes will console log a status
 app.use(function (req, res, next) {
@@ -42,6 +55,8 @@ app.get('/', function (req, res) {
   });
 });
 
+//Routes for Authentication
+app.use('/auth', authRouter);
 //Routes for API/Users
 app.use('/api/users', userRouter);
 //Routes for API/Workouts
