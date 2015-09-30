@@ -1,6 +1,6 @@
-angular.module('CovalentFitness.services', [])
+var services = angular.module('CovalentFitness.services', [])
 
-.factory('Auth', function ($http, $location, $window) {
+services.factory('Auth', function ($http, $location, $window) {
 
   var signup = function (user) {
     return $http({
@@ -9,6 +9,7 @@ angular.module('CovalentFitness.services', [])
       data: user
     })
     .then(function (resp) {
+      //Are we also using tokens?
       // return resp.data.token;
     });
   };

@@ -11,28 +11,40 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('SignupCtrl', function($scope) {
+.controller('SignupCtrl', function($scope, Auth) {
 
   $scope.signupData = {};
 
   $scope.doSignup = function() {
-    Auth.signup($scope.signupData)    
+    Auth.signup($scope.signupData)
+      .then(function () {
+        $location.path('/home');
+      })
+      .catch(function (error) {
+        console.error(error);
+      });    
   };
 })
 
-.controller('LoginCtrl', function($scope) {
+.controller('LoginCtrl', function($scope, Auth) {
 
   // Form data for the login
   $scope.loginData = {};
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
-    Auth.login($scope.loginData)    
+    Auth.login($scope.loginData)
+      .then(function () {
+        $location.path('/home');
+      })
+      .catch(function (error) {
+        console.error(error);
+      });     
     
   };
 })
 
-.controller('LogoutCtrl', function($scope, $timeout) {
+.controller('LogoutCtrl', function($scope, Auth) {
 
   $ionicModal.fromTemplateUrl('views/logout.html', {
     scope: $scope
