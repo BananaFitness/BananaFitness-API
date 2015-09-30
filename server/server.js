@@ -9,7 +9,7 @@ db.sequelize.sync({
   force: refreshData
 }).then(function () {
   if (refreshData) {
-    // Write all company data
+    // Writing test data
     var data = require('../data.json');
 
     var userData = data['users'];
@@ -64,61 +64,6 @@ db.sequelize.sync({
         }
       });
     });
-
-    // for (var i = 0; i < userData.length; i++) {
-    //   db.User.findOrCreate({
-    //     where: {
-    //       username: userData[i]['username'].toString(),
-    //       password: userData[i]['password'].toString(),
-    //     }
-    //   }).spread(function (user, created) {
-    //     if (!created) {
-    //       console.log('User ' + user['username'] + ' not created!');
-    //     } else {
-    //       console.log('User ' + user['username'] + ' created!');
-    //     }
-    //   });
-    // }
-
-    // setTimeout(function () {
-    //   var workoutData = data['workouts'];
-    //   workoutData.forEach(function (workoutObj, i) {
-    //     var username = '';
-    //     if (i < 3) {
-    //       username = 'dchie'
-    //     } else if (i < 5) {
-    //       username = 'zsmith'
-    //     } else if (i < 7) {
-    //       username = 'bvibhagool'
-    //     } else if (i < 9) {
-    //       username = 'lweaver'
-    //     }
-
-    //     db.User.findOne({
-    //       where: {
-    //         username: username
-    //       }
-    //     }).then(function (user) {
-    //       console.log(workoutObj['name']);
-    //     });
-        
-    //   });
-
-      // for (var i = 0; i < workoutData.length; i++) {
-
-        // db.Workout.findOrCreate({
-        //   where: {
-        //     name: workoutData[i]['name'].toString(),
-        //   }
-        // }).spread(function (workout, created) {
-        //   if (!created) {
-        //     console.log('Workout ' + workout['name'] + ' not created!');
-        //   } else {
-        //     console.log('Workout ' + workout['name'] + ' created!');
-        //   }
-        // });
-      // }
-    // }, 500);
   }
 });
 
