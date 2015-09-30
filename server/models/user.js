@@ -15,6 +15,15 @@ module.exports = function(sequelize, DataTypes) {
     },
     password: {
       type: DataTypes.STRING
+    },
+    name: {
+      type: DataTypes.STRING
+    },
+    age: {
+      type: DataTypes.STRING
+    },
+    location: {
+      type: DataTypes.STRING
     }
   }, {  
     hooks: {
