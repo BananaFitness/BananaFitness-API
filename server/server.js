@@ -13,37 +13,112 @@ db.sequelize.sync({
     var data = require('../data.json');
 
     var userData = data['users'];
-    console.log(userData);
-    for (var i = 0; i < userData.length; i++) {
+    userData.forEach(function (userObj) {
       db.User.findOrCreate({
         where: {
-          username: userData[i]['username'].toString(),
-          password: userData[i]['password'].toString(),
+          username: userObj['username'].toString(),
+          password: userObj['password'].toString(),
         }
       }).spread(function (user, created) {
         if (!created) {
-          console.log('User ' + user['name'] + ' not created!');
+          console.log('User ' + user['username'] + ' not created!');
         } else {
-          console.log('User ' + user['name'] + ' created!');
+          console.log('User ' + user['username'] + ' created!');
+          setTimeout(function () {
+            var workouts = userObj['workouts'];
+            workouts.forEach(function (workoutObj) {
+              db.Workout.findOrCreate({
+                where: {
+                  user_id: user['id'],
+                  name: workoutObj['name']
+                }
+              }).spread(function (workout, created) {
+                if (!created) {
+                  console.log('Workout ' + workout['name'] + ' not created!');
+                } else {
+                  console.log('Workout ' + workout['name'] + ' created!');
+                  setTimeout(function () {
+                    var moves = workoutObj['moves'];
+                    moves.forEach(function (moveObject) {
+                      db.Move.findOrCreate({
+                        where: {
+                          workout_id: workout['id'],
+                          name: moveObject['name'],
+                          category: moveObject['category'],
+                          weight: moveObject['weight'],
+                          reps: moveObject['reps'],
+                        }
+                      }).spread(function (move, created) {
+                        if (!created) {
+                          console.log('Move ' + move['name'] + ' not created!');
+                        } else {
+                          console.log('Move ' + move['name'] + ' created!');
+                        }
+                      })
+                    })
+                  }, 100);
+                }
+              });
+            });
+          }, 100);
         }
       });
-    }
+    });
 
-    var workoutData = data['workouts'];
-    console.log(workoutData);
-    for (var i = 0; i < workoutData.length; i++) {
-      db.Workout.findOrCreate({
-        where: {
-          name: workoutData[i]['name'].toString(),
-        }
-      }).spread(function (workout, created) {
-        if (!created) {
-          console.log('Workout ' + workout['name'] + ' not created!');
-        } else {
-          console.log('Workout ' + workout['name'] + ' created!');
-        }
-      });
-    }
+    // for (var i = 0; i < userData.length; i++) {
+    //   db.User.findOrCreate({
+    //     where: {
+    //       username: userData[i]['username'].toString(),
+    //       password: userData[i]['password'].toString(),
+    //     }
+    //   }).spread(function (user, created) {
+    //     if (!created) {
+    //       console.log('User ' + user['username'] + ' not created!');
+    //     } else {
+    //       console.log('User ' + user['username'] + ' created!');
+    //     }
+    //   });
+    // }
+
+    // setTimeout(function () {
+    //   var workoutData = data['workouts'];
+    //   workoutData.forEach(function (workoutObj, i) {
+    //     var username = '';
+    //     if (i < 3) {
+    //       username = 'dchie'
+    //     } else if (i < 5) {
+    //       username = 'zsmith'
+    //     } else if (i < 7) {
+    //       username = 'bvibhagool'
+    //     } else if (i < 9) {
+    //       username = 'lweaver'
+    //     }
+
+    //     db.User.findOne({
+    //       where: {
+    //         username: username
+    //       }
+    //     }).then(function (user) {
+    //       console.log(workoutObj['name']);
+    //     });
+        
+    //   });
+
+      // for (var i = 0; i < workoutData.length; i++) {
+
+        // db.Workout.findOrCreate({
+        //   where: {
+        //     name: workoutData[i]['name'].toString(),
+        //   }
+        // }).spread(function (workout, created) {
+        //   if (!created) {
+        //     console.log('Workout ' + workout['name'] + ' not created!');
+        //   } else {
+        //     console.log('Workout ' + workout['name'] + ' created!');
+        //   }
+        // });
+      // }
+    // }, 500);
   }
 });
 
