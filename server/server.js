@@ -18,6 +18,9 @@ db.sequelize.sync({
         where: {
           username: userObj['username'].toString(),
           password: userObj['password'].toString(),
+          name: userObj['name'].toString(),
+          age: userObj['age'],
+          location: userObj['location'].toString(),
         }
       }).spread(function (user, created) {
         if (!created) {
@@ -30,7 +33,7 @@ db.sequelize.sync({
               db.Workout.findOrCreate({
                 where: {
                   user_id: user['id'],
-                  name: workoutObj['name']
+                  name: workoutObj['name'].toString()
                 }
               }).spread(function (workout, created) {
                 if (!created) {
@@ -43,8 +46,8 @@ db.sequelize.sync({
                       db.Move.findOrCreate({
                         where: {
                           workout_id: workout['id'],
-                          name: moveObject['name'],
-                          category: moveObject['category'],
+                          name: moveObject['name'].toString(),
+                          category: moveObject['category'].toString(),
                           weight: moveObject['weight'],
                           reps: moveObject['reps'],
                         }
@@ -54,8 +57,8 @@ db.sequelize.sync({
                         } else {
                           console.log('Move ' + move['name'] + ' created!');
                         }
-                      })
-                    })
+                      });
+                    });
                   }, 100);
                 }
               });

@@ -3,6 +3,9 @@
     {
       "username": "dchie",
       "password": "chiechie",
+      "name": "Derrick",
+      "age": 23,
+      "location": "Cypress",
       "workouts": [
         {
           "name": "6 Pack in 6 Days",
@@ -66,6 +69,9 @@
     {
       "username": "zsmith",
       "password": "smithsonian",
+      "name": "Zach",
+      "age": 24,
+      "location": "San Francisco",
       "workouts": [
         {
           "name": "Cut the Caboose",
@@ -106,6 +112,9 @@
     {
       "username": "bvibhagool",
       "password": "vibhanocci",
+      "name": "Ben",
+      "age": 23,
+      "location": "Bangkok",
       "workouts": [
         {
           "name": "Mission Slimpossible",
@@ -152,6 +161,9 @@
     {
       "username": "lweaver",
       "password": "weavinator",
+      "name": "Laura",
+      "age": 24,
+      "location": "San Francisco",
       "workouts": [
         {
           "name": "Absolutely Abs",

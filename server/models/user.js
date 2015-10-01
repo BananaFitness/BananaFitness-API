@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING
     },
     age: {
-      type: DataTypes.STRING
+      type: DataTypes.INTEGER
     },
     location: {
       type: DataTypes.STRING
