@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('CovalentFitness.controllers', [])
 
 .controller('AppCtrl', function($scope) {
 
@@ -17,12 +17,12 @@ angular.module('starter.controllers', [])
 
   $scope.doSignup = function() {
     Auth.signup($scope.signupData)
-      .then(function () {
+      .then(function() {
         $location.path('/home');
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.error(error);
-      });    
+      });
   };
 })
 
@@ -34,13 +34,13 @@ angular.module('starter.controllers', [])
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     Auth.login($scope.loginData)
-      .then(function () {
+      .then(function() {
         $location.path('/home');
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.error(error);
-      });     
-    
+      });
+
   };
 })
 
@@ -53,20 +53,141 @@ angular.module('starter.controllers', [])
   });
 
   $scope.doLogout = function() {
-    Auth.logout()    
+    Auth.logout();
   };
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
+.controller('WorkoutsCtrl', function($scope, $location, WorkoutServices) {
+  $scope.shouldShowDelete = false;
+  $scope.listCanSwipe = true;
+
+  $scope.workoutList = [];
+
+  //functions for Workouts Controller ==========
+
+  $scope.loadWorkoutList = function() {
+    WorkoutServices.getAllWorkouts()
+      .then(function(allWorkouts) {
+        $scope.workoutList = allWorkouts;
+      });
+  };
+
+  $scope.selectWorkout = function(wrkt) {
+    WorkoutServices.setWorkout(wrkt)
+      .then($location.path('/app/workout'));
+  };
+
+  $scope.addWorkout = function() {
+    WorkoutServices.setWorkout(null)
+      .then($location.path('/app/add_edit_workout'));
+  };
+
+  // $scope.shareWorkout = function() {
+  //   //not sure if we want to do this yet.
+  // };
+
+  $scope.editWorkout = function(wrkt) {
+    WorkoutServices.setWorkout(wrkt)
+      .then($location.path('/app/add_edit_workout'));
+  };
+
+  $scope.loadWorkoutList();
+
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+.controller('WorkoutCtrl', function($scope, $location, WorkoutServices) {
+
+  $scope.workout = null;
+
+  //functions for Workout Controller ==========
+
+  $scope.loadWorkout = function() {
+    WorkoutServices.getSpecificWorkout()
+      .then(function(specWorkout) {
+        $scope.workout = specWorkout;
+      });
+  };
+
+  $scope.editWorkout = function(wrkt) {
+    WorkoutServices.setWorkout(wrkt)
+      .then($location.path('/app/add_edit_workout'));
+  };
+
+  //nav ==========
+
+  $scope.goBack = function() {
+    WorkoutServices.setWorkout(null)
+      .then($location.path('/app/workouts'));
+  };
+
+  $scope.loadWorkout();
+
+})
+
+.controller('WorkoutEditsCtrl', function($scope, $location, $ionicModal, WorkoutServices) {
+
+  // button func ==========
+  $scope.shouldShowDelete = false;
+  $scope.shouldShowReorder = false;
+  $scope.listCanSwipe = true;
+
+  //*****NOTE the modal is unfinished*****
+
+  // modal for collection edit info ==========
+  $ionicModal.fromTemplateUrl('../views/workoutEditsModal.html', {
+    scope: $scope,
+    animation: 'slide-in-up' // I am having trouble finding an alternate animation. 
+  }).then(function(modal) {
+    $scope.modal = modal
+  })
+
+  $scope.openModal = function() {
+    $scope.modal.show()
+  }
+
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+
+  };
+
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+
+  //workoutedits controller vars and functions ==========
+  $scope.currentWorkout = null;
+
+  $scope.goBack = function() {
+    WorkoutServices.setWorkout(null)
+      .then($location.path('/app/workouts'));
+  };
+
+  //right now edits send to server each time, maybe we can accumulate these here and send to server on 'save' or 'exit'.  We should talk about which we want.
+
+  $scope.adEx = function() {
+    //getting this figured out with modal *****
+  };
+
+  $scope.editEx = function() {
+    //getting this figured out with modal *****
+  };
+
+  $scope.deleteEx = function(move) {
+    WorkoutServices.deleteMoveFromWorkout(move)
+      .then($scope.loadCurrentWorkout());
+  };
+
+  $scope.loadCurrentWorkout = function() {
+    WorkoutServices.getSpecificWorkout()
+      .then(function(specWorkout) {
+        $scope.currentWorkout = specWorkout;
+      });
+  };
+
+  //need to if check current WO (blank or current) and set initial state
+  if (WorkoutServices.selectedWorkout.id === null) {
+    $scope.currentWorkout = {};
+  } else {
+    $scope.loacCurrentWorkout();
+  }
 });

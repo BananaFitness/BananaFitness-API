@@ -1,0 +1,23 @@
+<ion-view view-title="Workout" ng-controller="WorkoutCtrl">
+    <ion-header-bar align-title="left" class="bar-subheader">
+        <div class="buttons">
+            <button class="button" ng-click="goBack()">Back</button>
+        </div>
+        <h1 class="title">{{workout.name}}</h1>
+        <div class="buttons">
+            <button class="button" ng-click "editWorkout()">Add Exercise</button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <ion-list>
+            <ion-item ng-repeat="move in workout" class="item-thumbnail-left">
+                <!-- <img ng-src="{{move.img}}"> if we want images-->
+                <h2>{{move.name}}</h2>
+                <h2>{{move.weight}}</h2>
+                <h2>{{move.sets}}</h2>
+                <h2>{{move.reps}}</h2>
+                <!-- <p>{{move.description}}</p> if we want descriptions-->
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
