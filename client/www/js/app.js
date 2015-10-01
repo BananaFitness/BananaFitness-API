@@ -1,5 +1,5 @@
 
-angular.module('ionfit', ['ionic', 'ionfit.controllers'])
+angular.module('CovalentFitness', ['ionic', 'CovalentFitness.controllers', 'CovalentFitness.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -20,13 +20,15 @@ angular.module('ionfit', ['ionic', 'ionfit.controllers'])
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
+//NOTE: none of these are implemented yet!!!!!!!!!!
+
     .state('app', {
     url: '/app',
     abstract: true,
     templateUrl: '../views/workouts.html',
     controller: 'WorkoutsCtrl'
   });
-});
+})
 //   .state('app.search', {
 //     url: '/search',
 //     views: {

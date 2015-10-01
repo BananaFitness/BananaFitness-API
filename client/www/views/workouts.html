@@ -1,17 +1,25 @@
-<ion-view view-title="Workouts">
+<ion-view view-title="Workouts" ng-controller="WorkoutsCtrl">
+    <ion-header-bar align-title="left" class="bar-subheader">
+        <div class="buttons">
+            <button class="button">NEW</button>
+        </div>
+        <h1 class="title">Your Workouts</h1>
+    </ion-header-bar>
     <ion-content>
-        <ion-list ng-controller="WorkoutsCtrl" show-delete="shouldShowDelete" show-reorder="shouldShowReorder" can-swipe="listCanSwipe">
-            <ion-item ng-repeat="workout in workouts" class="item-thumbnail-left">
+        <!-- maybe change subheader to footer or header bar, also think of changin buttons to clear for more modern look.  These changes can be done later though after we talk more about css and design of app -->
+        <ion-list show-delete="shouldShowDelete" can-swipe="listCanSwipe">
+            <ion-item ng-repeat="workout in workoutList" class="item-thumbnail-left">
                 <!-- <img ng-src="{{workout.img}}"> if we want images-->
-                <h2>{{workout.name}}</h2>
+                <button class="button button-clear button-dark" ng-click="selectWorkout(workout.id)">
+                    <h2>{{workout.name}}</h2></button>
                 <!-- <p>{{workout.description}}</p> if we want descriptions-->
-                <ion-option-button class="button-positive" ng-click="share(item)">
+                <ion-option-button class="button-positive" ng-click="shareWorkout(workout.id)">
                     Share
                 </ion-option-button>
-                <ion-option-button class="button-info" ng-click="use(item)">
-                    Use
+                <ion-option-button class="button-assertive" ng-click="editWorkout(workout.id)">
+                    Edit
                 </ion-option-button>
-                <ion-delete-button class="ion-minus-circled" ng-click="items.splice($index, 1)">
+                <ion-delete-button class="ion-minus-circled" ng-click="workoutList.splice($index, 1)">
                 </ion-delete-button>
             </ion-item>
         </ion-list>
