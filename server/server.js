@@ -101,6 +101,7 @@ var userRouter = require('./routers/userRouter');
 var workoutRouter = require('./routers/workoutRouter');
 var moveRouter = require('./routers/moveRouter');
 var authRouter = require('./routers/authRouter');
+var followerRouter = require('./routers/followRouter');
 
 
 // All of our routes will console log a status
@@ -118,13 +119,15 @@ app.get('/', function (req, res) {
   });
 });
 
-//Routes for Authentication
+// Routes for Authentication
 app.use('/auth', authRouter);
-//Routes for API/Users
+// Routes for API/Users
 app.use('/api/users', userRouter);
-//Routes for API/Workouts
+// Routes for API/Workouts
 app.use('/api/workouts', workoutRouter);
-//Ruotes for API/Moves
+// Routes for API/Moves
 app.use('/api/moves', moveRouter);
+// Routes for API/Followers
+app.use('/api/follows', followerRouter);
 
 module.exports = app;

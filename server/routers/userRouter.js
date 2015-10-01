@@ -29,7 +29,7 @@ router.route('/:username')
       res.json(user);
     });
   });
-
+  
 // NEEDS TESTING
 router.route('/')
   // Create a new user
