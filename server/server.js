@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var db = require(__dirname + '/models/index');
 
 // If true, whole database is dropped on start
-var refreshData = true;
+var refreshData = false;
 // Sync the database models
 db.sequelize.sync({
   force: refreshData

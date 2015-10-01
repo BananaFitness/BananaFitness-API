@@ -10,25 +10,40 @@ router.route('/')
     } else if (!validator.isUUID(req.body.followeeid)) {
       res.json('Followee id is not a valid UUID');
     }
-
-    // Need to do a check here to see if the id's exist
-    // Maybe put the two checks into a promise array
-    // Then call promise all
-    // And on the end, if true, do findOrCreate
-
-    db.Follow.findOrCreate({
+    db.User.findOne({
       where: {
-        user_id: req.body.userid,
-        followee_id: req.body.followeeid
+        id: req.body.userid
       }
-    }).spread(function (follow, created) {
-      if (!created) {
-        console.log(follow['user_id'] + ' is already following ' + follow['followee_id']);
+    }).then(function (user) {
+      if (!user) {
+        res.json('User id does not exist in the database');
       } else {
-        console.log(follow['user_id'] + ' is now following ' + follow['followee_id']);
+        db.User.findOne({
+          where: {
+            id: req.body.followeeid
+          }
+        }).then(function (followee) {
+          if (!followee) {
+            res.json('Followee id does not exist in the database');
+          } else {
+            db.Follow.findOrCreate({
+              where: {
+                user_id: req.body.userid,
+                followee_id: req.body.followeeid
+              }
+            }).spread(function (follow, created) {
+              if (!created) {
+                console.log(follow['user_id'] + ' is already following ' + follow['followee_id']);
+              } else {
+                console.log(follow['user_id'] + ' is now following ' + follow['followee_id']);
+              }
+              res.json(follow);
+            });
+          }
+        });
       }
-      res.json(follow);
     });
+
   });
 
 router.route('/:userid')
@@ -42,16 +57,19 @@ router.route('/:userid')
         user_id: req.params.userid
       }
     }).then(function (follows) {
-      if (moves.length === 0) {
+      if (follows.length === 0) {
         res.json('There are no follows for this user');
       } else {
         var followees = [];
         for (var i = 0; i < follows.length; i++) {
-          db.findOne({
+          db.User.findOne({
             where: {
-              user_id: follows[i]['followee_id']
+              id: follows[i]['followee_id']
             }
           }).then(function (followee) {
+            if (!followee) {
+              res.json('Followee id does not exist in the database');
+            }
             followees.push(followee);
             if (followees.length === follows.length) {
               res.json(followees);
