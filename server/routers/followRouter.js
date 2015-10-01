@@ -31,6 +31,42 @@ router.route('/')
     });
   });
 
-// Get all follows for user id
-
+router.route('/:userid')
+  // Get all followed user objects for user by userid
+  .get(function (req, res) {
+    if (!validator.isUUID(req.params.userid)) {
+      res.json('User id is not a valid UUID');
+    }
+    db.Follow.findAll({
+      where: {
+        user_id: req.params.userid
+      }
+    }).then(function (follows) {
+      if (moves.length === 0) {
+        res.json('There are no follows for this user');
+      } else {
+        var followees = [];
+        for (var i = 0; i < follows.length; i++) {
+          db.findOne({
+            where: {
+              user_id: follows[i]['followee_id']
+            }
+          }).then(function (followee) {
+            followees.push(followee);
+            if (followees.length === follows.length) {
+              res.json(followees);
+            }
+          });
+        }
+      }
+    });
+  });
 module.exports = router;
+
+
+
+
+
+
+
+
