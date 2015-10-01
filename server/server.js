@@ -115,7 +115,7 @@ app.use(function (req, res, next) {
 app.get('/', function (req, res) {
   // res.sendFile(__dirname + '/public/views/index.html');
   res.json({
-    message: 'Node-Express-Sequelize Server!'
+    message: 'Welcome to the Covalent Fitness API!'
   });
 });
 
