@@ -7,17 +7,13 @@
     "dialect": "postgres"
   },
   "test": {
-    "database": "ENTER_DB_TEST_NAME",
+    "database": "covalent_fitness_test",
     "username": "root",
     "password": null,
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
-    "database": "ENTER_DB_PRODUCTION_NAME",
-    "username": "root",
-    "password": null,
-    "host": "127.0.0.1",
-    "dialect": "postgres"
+    "database": "postgres://fkcuhrzleoygss:LuLQx0mqM6KIpqKleKrWn_YJyD@ec2-54-83-51-38.compute-1.amazonaws.com:5432/d2t4o2onu3ea5",
   }
 }
