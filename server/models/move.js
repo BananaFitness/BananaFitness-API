@@ -6,6 +6,10 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
+    workout_id: {
+      type: DataTypes.UUID,
+      allowNull: false
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false
@@ -20,9 +24,12 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER
     }
   }, {
+    tableName: 'move',
     classMethods: {
       associate: function(models) {
-        Move.belongsTo(models.Workout);
+        Move.belongsTo(models.Workout, {
+          foreignKey: 'workout_id'
+        });
       }
     }
   });

@@ -20,12 +20,13 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING
     },
     age: {
-      type: DataTypes.STRING
+      type: DataTypes.INTEGER
     },
     location: {
       type: DataTypes.STRING
     }
   }, {  
+    tableName:'user',
     hooks: {
     afterCreate: function (instance, options) {
       instance.hashPassword();
@@ -33,9 +34,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     classMethods: {
       associate: function(models) {
-        User.belongsToMany(models.User, {
-          as: 'Friends',
-          through: 'Friendships'
+        User.hasMany(models.Follow, {
+          foreignKey: 'user_id'
+        });
+        User.hasMany(models.Follow, {
+          foreignKey: 'followee_id'
         });
       }
     },

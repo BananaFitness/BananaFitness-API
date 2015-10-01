@@ -2,9 +2,72 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var db = require(__dirname + '/models/index');
 
+// If true, whole database is dropped on start
+var refreshData = true;
 // Sync the database models
 db.sequelize.sync({
-  force: true //If true, the whole DB is dropped on every server start
+  force: refreshData
+}).then(function () {
+  if (refreshData) {
+    // Writing test data
+    var data = require('../data.json');
+
+    var userData = data['users'];
+    userData.forEach(function (userObj) {
+      db.User.findOrCreate({
+        where: {
+          username: userObj['username'].toString(),
+          password: userObj['password'].toString(),
+          name: userObj['name'].toString(),
+          age: userObj['age'],
+          location: userObj['location'].toString(),
+        }
+      }).spread(function (user, created) {
+        if (!created) {
+          console.log('User ' + user['username'] + ' not created!');
+        } else {
+          console.log('User ' + user['username'] + ' created!');
+          setTimeout(function () {
+            var workouts = userObj['workouts'];
+            workouts.forEach(function (workoutObj) {
+              db.Workout.findOrCreate({
+                where: {
+                  user_id: user['id'],
+                  name: workoutObj['name'].toString()
+                }
+              }).spread(function (workout, created) {
+                if (!created) {
+                  console.log('Workout ' + workout['name'] + ' not created!');
+                } else {
+                  console.log('Workout ' + workout['name'] + ' created!');
+                  setTimeout(function () {
+                    var moves = workoutObj['moves'];
+                    moves.forEach(function (moveObject) {
+                      db.Move.findOrCreate({
+                        where: {
+                          workout_id: workout['id'],
+                          name: moveObject['name'].toString(),
+                          category: moveObject['category'].toString(),
+                          weight: moveObject['weight'],
+                          reps: moveObject['reps'],
+                        }
+                      }).spread(function (move, created) {
+                        if (!created) {
+                          console.log('Move ' + move['name'] + ' not created!');
+                        } else {
+                          console.log('Move ' + move['name'] + ' created!');
+                        }
+                      });
+                    });
+                  }, 100);
+                }
+              });
+            });
+          }, 100);
+        }
+      });
+    });
+  }
 });
 
 // Create an express app
@@ -38,6 +101,7 @@ var userRouter = require('./routers/userRouter');
 var workoutRouter = require('./routers/workoutRouter');
 var moveRouter = require('./routers/moveRouter');
 var authRouter = require('./routers/authRouter');
+var followerRouter = require('./routers/followRouter');
 
 
 // All of our routes will console log a status
@@ -55,13 +119,15 @@ app.get('/', function (req, res) {
   });
 });
 
-//Routes for Authentication
+// Routes for Authentication
 app.use('/auth', authRouter);
-//Routes for API/Users
+// Routes for API/Users
 app.use('/api/users', userRouter);
-//Routes for API/Workouts
+// Routes for API/Workouts
 app.use('/api/workouts', workoutRouter);
-//Ruotes for API/Moves
+// Routes for API/Moves
 app.use('/api/moves', moveRouter);
+// Routes for API/Followers
+app.use('/api/follows', followerRouter);
 
 module.exports = app;
