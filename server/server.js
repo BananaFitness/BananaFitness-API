@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var db = require(__dirname + '/models/index');
 
 // If true, whole database is dropped on start
-var refreshData = true;
+var refreshData = false;
 // Sync the database models
 db.sequelize.sync({
   force: refreshData
@@ -101,7 +101,7 @@ var userRouter = require('./routers/userRouter');
 var workoutRouter = require('./routers/workoutRouter');
 var moveRouter = require('./routers/moveRouter');
 var authRouter = require('./routers/authRouter');
-var followerRouter = require('./routers/followRouter');
+var followRouter = require('./routers/followRouter');
 
 
 // All of our routes will console log a status
@@ -128,6 +128,6 @@ app.use('/api/workouts', workoutRouter);
 // Routes for API/Moves
 app.use('/api/moves', moveRouter);
 // Routes for API/Followers
-app.use('/api/follows', followerRouter);
+app.use('/api/follows', followRouter);
 
 module.exports = app;

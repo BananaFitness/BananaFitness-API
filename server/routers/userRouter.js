@@ -24,7 +24,7 @@ router.route('/:username')
       }
     }).then(function (user) {
       if (!user) {
-        res.json('Username does not exist in the database');
+        res.json('User does not exist in the database');
       }
       res.json(user);
     });
