@@ -1,4 +1,9 @@
+// Ionic Starter App
 
+// angular.module is a global place for creating, registering and retrieving Angular modules
+// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+// the 2nd parameter is an array of 'requires'
+// 'starter.controllers' is found in controllers.js
 angular.module('CovalentFitness', ['ionic', 'CovalentFitness.controllers', 'CovalentFitness.services'])
 
 .run(function($ionicPlatform) {
@@ -20,6 +25,43 @@ angular.module('CovalentFitness', ['ionic', 'CovalentFitness.controllers', 'Cova
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
+    .state('app', {
+    url: '/app',
+    abstract: true,
+    templateUrl: '../views/menu.html',
+    controller: 'AppCtrl'
+    })
+
+    // Using views because logout is a subview of menu
+    .state('app.logout', {
+      url: '/logout',
+      views: {
+        'menuContent': {
+          templateUrl: '../views/logout.html'
+        }
+      }
+    })
+
+    .state('signupLogin', {
+    url: '/app/signuplogin',
+    abstract: true,
+    templateUrl: '../views/signup.html'
+    });
+
+    .state('signup', {
+    url: '/app/signup',
+    abstract: true,
+    templateUrl: '../views/signup.html',
+    controller: 'SignupCtrl'
+    });
+
+    .state('login', {
+    url: '/app/login',
+    abstract: true,
+    templateUrl: '../views/login.html',
+    controller: 'LoginCtrl'
+    });
+
 //NOTE: none of these are implemented yet!!!!!!!!!!
 
     .state('app', {
@@ -27,8 +69,7 @@ angular.module('CovalentFitness', ['ionic', 'CovalentFitness.controllers', 'Cova
     abstract: true,
     templateUrl: '../views/workouts.html',
     controller: 'WorkoutsCtrl'
-  });
-})
+    });
 //   .state('app.search', {
 //     url: '/search',
 //     views: {
@@ -66,5 +107,5 @@ angular.module('CovalentFitness', ['ionic', 'CovalentFitness.controllers', 'Cova
 //     }
 //   });
 //   // if none of the above states are matched, use this as the fallback
-//   $urlRouterProvider.otherwise('/app/playlists');
-// });
+  $urlRouterProvider.otherwise('/app/signuplogin');
+});
