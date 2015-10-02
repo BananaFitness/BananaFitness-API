@@ -2,8 +2,27 @@ var router = require('express').Router();
 var validator = require('validator');
 var db = require('../models/index');
 
+// Gets user by userid
+router.route('/:userid')
+  // Gets a user by userid
+  .get(function (req, res) {
+    if (!validator.isUUID(req.params.userid)) {
+      res.json('User id is not a valid UUID');
+    }
+    db.User.findOne({
+      where: {
+        id: req.params.userid
+      }
+    }).then(function (user) {
+      if (!user) {
+        res.json('User id does not exist in the database');
+      }
+      res.json(user);
+    });
+  });
+
 // Gets user by username
-router.route('/:username')
+router.route('/username/:username')
   // Gets a user by username
   .get(function (req, res) {
     db.User.findOne({
@@ -12,12 +31,12 @@ router.route('/:username')
       }
     }).then(function (user) {
       if (!user) {
-        res.json('User does not exist in the database');
+        res.json('Username does not exist in the database');
       }
       res.json(user);
     });
   });
-  
+
 router.route('/')
   // Create a new user
   .post(function (req, res) {
