@@ -1,4 +1,4 @@
-## API Server
+# API Server
 - The API server is deployed on Heroku at <https://covalent-fitness-api.herokuapp.com>
 ​
 ## API Routes
