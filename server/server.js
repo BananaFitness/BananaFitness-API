@@ -105,11 +105,15 @@ var port = process.env.PORT || 8080;
 
 // ROUTES FOR OUR API
 // =============================================================================
+var authRouter = require('./routers/authRouter');
 var userRouter = require('./routers/userRouter');
 var workoutRouter = require('./routers/workoutRouter');
 var moveRouter = require('./routers/moveRouter');
-var authRouter = require('./routers/authRouter');
 var followRouter = require('./routers/followRouter');
+var usersRouter = require('./routers/usersRouter');
+var workoutsRouter = require('./routers/workoutsRouter');
+var movesRouter = require('./routers/movesRouter');
+var followsRouter = require('./routers/followsRouter');
 
 
 // All of our routes will console log a status
@@ -129,13 +133,21 @@ app.get('/', function (req, res) {
 
 // Routes for Authentication
 app.use('/auth', authRouter);
-// Routes for API/Users
-app.use('/api/users', userRouter);
+// Routes for API/User
+app.use('/api/user', userRouter);
+// Routes for API/Workout
+app.use('/api/workout', workoutRouter);
+// Routes for API/Move
+app.use('/api/move', moveRouter);
+// Routes for API/Follow
+app.use('/api/follow', followRouter);
+// Routes for API/User
+app.use('/api/users', usersRouter);
 // Routes for API/Workouts
-app.use('/api/workouts', workoutRouter);
+app.use('/api/workouts', workoutsRouter);
 // Routes for API/Moves
-app.use('/api/moves', moveRouter);
-// Routes for API/Followers
-app.use('/api/follows', followRouter);
+app.use('/api/moves', movesRouter);
+// Routes for API/Follows
+app.use('/api/follows', followsRouter);
 
 module.exports = app;
