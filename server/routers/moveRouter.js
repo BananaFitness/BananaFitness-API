@@ -25,6 +25,12 @@ router.route('/')
       }
       res.json(move);
     });
+  })
+
+router.route('/:moveid')
+  // Deletes move by moveid
+  .delete(function (req, res) {
+
   });
 
 module.exports = router;

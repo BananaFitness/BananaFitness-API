@@ -24,4 +24,10 @@ router.route('/')
     });
   });
 
+router.route('/:workoutid')
+  // Deletes workout by workout
+  .delete(function (req, res) {
+    // Be sure to delete all moves first
+  });
+
 module.exports = router;
