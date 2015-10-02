@@ -30,18 +30,20 @@ router.route('/:username')
     });
   });
   
-// NEEDS TESTING
 router.route('/')
   // Create a new user
   .post(function (req, res) {
     db.User.findOrCreate({
       where: {
-        username: req.body.user,
-        password: req.body.password
+        username: req.body.username,
+        password: req.body.password,
+        name: req.body.name,
+        age: req.body.age,
+        location: req.body.location
       }
     }).spread(function (user, created) {
       if (!created) {
-        console.log('User already exists!');
+        console.log('User already exists in the database!');
         // Handle sending error about user not existing
       } else {
         console.log('User created!');
