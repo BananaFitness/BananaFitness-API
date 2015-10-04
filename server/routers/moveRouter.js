@@ -46,19 +46,19 @@ router.route('/:moveid')
   })
   // Deletes move by moveid
   .delete(function (req, res) {
-    if (!validator.isUUID(req.body.moveid)) {
+    if (!validator.isUUID(req.params.moveid)) {
       res.json('User id is not a valid UUID');
     }
     db.Move.findOne({
       where: {
-        id: req.body.moveid
+        id: req.params.moveid
       }
     }).then(function (move) {
       if (!move) {
         res.json('Move id does not exist in the database');
       }
       move.destroy().then(function () {
-        console.log(args);
+        res.json('Deleted move from database');
       }); 
     });
   });
