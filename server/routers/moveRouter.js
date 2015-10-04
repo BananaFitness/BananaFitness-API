@@ -47,7 +47,7 @@ router.route('/:moveid')
   // Deletes move by moveid
   .delete(function (req, res) {
     if (!validator.isUUID(req.params.moveid)) {
-      res.json('User id is not a valid UUID');
+      res.json('Move id is not a valid UUID');
     }
     db.Move.findOne({
       where: {
