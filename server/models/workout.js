@@ -18,7 +18,8 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Workout.belongsTo(models.User, {
-          foreignKey: 'user_id'
+          foreignKey: 'user_id',
+          onDelete: 'cascade'
         });
       }
     }

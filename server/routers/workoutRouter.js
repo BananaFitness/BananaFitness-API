@@ -41,9 +41,23 @@ router.route('/:workoutid')
       res.json(workout);
     });
   })
-  // Deletes workout by workout
+  // Deletes workout by workoutid
   .delete(function (req, res) {
-    // Be sure to delete all moves first
+    if (!validator.isUUID(req.params.workoutid)) {
+      res.json('Workout id is not a valid UUID');
+    }
+    db.Workout.findOne({
+      where: {
+        id: req.params.workoutid
+      }
+    }).then(function (workout) {
+      if (!workout) {
+        res.json('Workout id does not exist in the database');
+      }
+      workout.destroy().then(function () {
+        res.json('Deleted workout from the database');
+      }); 
+    });
   });
 
 module.exports = router;

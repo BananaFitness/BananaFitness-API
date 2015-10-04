@@ -58,7 +58,7 @@ router.route('/:moveid')
         res.json('Move id does not exist in the database');
       }
       move.destroy().then(function () {
-        res.json('Deleted move from database');
+        res.json('Deleted move from the database');
       }); 
     });
   });
