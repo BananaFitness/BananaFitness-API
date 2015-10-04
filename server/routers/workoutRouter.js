@@ -25,6 +25,22 @@ router.route('/')
   });
 
 router.route('/:workoutid')
+  // Gets a workout by workoutid
+  .get(function (req, res) {
+    if (!validator.isUUID(req.params.workoutid)) {
+      res.json('Workout id is not a valid UUID');
+    }
+    db.Workout.findOne({
+      where: {
+        id: req.params.workoutid
+      }
+    }).then(function (workout) {
+      if (!workout) {
+        res.json('Workout id does not exist in the database');
+      }
+      res.json(workout);
+    });
+  })
   // Deletes workout by workout
   .delete(function (req, res) {
     // Be sure to delete all moves first
