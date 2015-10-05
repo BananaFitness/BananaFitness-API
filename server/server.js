@@ -108,6 +108,7 @@ var port = process.env.PORT || 8080;
 // ROUTES FOR OUR API
 // =============================================================================
 var authRouter = require('./routers/authRouter');
+var feedRouter = require('./routers/feedRouter');
 var userRouter = require('./routers/userRouter');
 var workoutRouter = require('./routers/workoutRouter');
 var moveRouter = require('./routers/moveRouter');
@@ -143,6 +144,8 @@ var checkUser = function(req, res, next){
 
 // Routes for Authentication
 app.use('/auth', authRouter);
+// Routes for Feed
+app.use('/api/feed', feedRouter);
 // Routes for API/User
 app.use('/api/user', checkUser, userRouter);
 // Routes for API/Workout
