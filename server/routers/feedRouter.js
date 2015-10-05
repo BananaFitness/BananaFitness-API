@@ -3,57 +3,25 @@ var validator = require('validator');
 var db = require('../models/index');
  
 router.route('/')
-  // Returns a list of feed workouts
+  // Returns a list of feed workouts with latest first
   .get(function (req, res) {
-    if (!validator.isUUID(req.body.workoutid)) {
-      res.json('User id is not a valid UUID');
-    }
-  })
-
+    db.Workout.findAll({
+      order: '"updatedAt" DESC'
+    }).then(function (workouts) {
+      if (workouts.length === 0) {
+        res.json('There are no workouts in the database');
+      }
+      res.json(workouts);
+    });
+  });
 
 router.route('/:userid')
   // Returns a list of feed workouts of followees of the userid
   .get(function (req, res) {
+    var user_id = (req.params.userid === 'me') ? req.user.id : req.params.userid;
     if (!validator.isUUID(req.params.userid)) {
       res.json('User id is not a valid UUID');
     }
-    
-  });
-
-router.route('/:moveid')
-  // Gets a move by moveid
-  .get(function (req, res) {
-    if (!validator.isUUID(req.params.moveid)) {
-      res.json('Move id is not a valid UUID');
-    }
-    db.Move.findOne({
-      where: {
-        id: req.params.moveid
-      }
-    }).then(function (move) {
-      if (!move) {
-        res.json('Move id does not exist in the database');
-      }
-      res.json(move);
-    });
-  })
-  // Deletes move by moveid
-  .delete(function (req, res) {
-    if (!validator.isUUID(req.params.moveid)) {
-      res.json('Move id is not a valid UUID');
-    }
-    db.Move.findOne({
-      where: {
-        id: req.params.moveid
-      }
-    }).then(function (move) {
-      if (!move) {
-        res.json('Move id does not exist in the database');
-      }
-      move.destroy().then(function () {
-        res.json('Deleted move from the database');
-      }); 
-    });
   });
 
 module.exports = router;
