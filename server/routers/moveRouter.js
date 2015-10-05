@@ -19,13 +19,45 @@ router.route('/')
     }).spread(function (move, created) {
       if (!created) {
         console.log('Move already exists in the database!');
-        // Handle sending error about move not existing
       } else {
         console.log('Move created!');
       }
       res.json(move);
     });
   })
+
+
+router.route('/edit')
+  // Edits a move by move id
+  .post(function (req, res) {
+    if (!validator.isUUID(req.body.moveid)) {
+      res.json('Move id is not a valid UUID');
+    }
+    db.Move.findOne({
+      where: {
+        id: req.body.moveid,
+      }
+    }).then(function (move) {
+      if (!move) {
+        res.json('Move id does not exist in the database');
+      }
+      if (req.body.name) {
+        move.name = req.body.name;
+      }
+      if (req.body.category) {
+        move.category = req.body.category;
+      }
+      if (req.body.weight) {
+        move.weight = req.body.weight;
+      }
+      if (req.body.reps) {
+        move.reps = req.body.reps;
+      }
+      move.save().then(function () {
+        res.json(move);
+      })
+    });
+  });
 
 router.route('/:moveid')
   // Gets a move by moveid

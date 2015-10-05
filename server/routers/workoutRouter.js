@@ -24,6 +24,29 @@ router.route('/')
     });
   });
 
+router.route('/edit')
+  // Edits a workout by workout id
+  .post(function (req, res) {
+    if (!validator.isUUID(req.body.workoutid)) {
+      res.json('Workout id is not a valid UUID');
+    }
+    db.Workout.findOne({
+      where: {
+        id: req.body.workoutid,
+      }
+    }).then(function (workout) {
+      if (!workout) {
+        res.json('Workout id does not exist in the database');
+      }
+      if (req.body.name) {
+        workout.name = req.body.name;
+      }
+      workout.save().then(function () {
+        res.json(workout);
+      })
+    });
+  });
+
 router.route('/:workoutid')
   // Gets a workout by workoutid
   .get(function (req, res) {
