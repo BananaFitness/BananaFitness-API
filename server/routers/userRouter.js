@@ -6,12 +6,13 @@ var db = require('../models/index');
 router.route('/:userid')
   // Gets a user by userid
   .get(function (req, res) {
-    if (!validator.isUUID(req.params.userid)) {
+    var user_id = (req.params.userid === 'me') ? req.user.id : req.params.userid;
+    if (!validator.isUUID(user_id)) {
       res.json('User id is not a valid UUID');
     }
     db.User.findOne({
       where: {
-        id: req.params.userid
+        id: user_id
       }
     }).then(function (user) {
       if (!user) {
