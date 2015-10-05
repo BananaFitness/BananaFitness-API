@@ -22,6 +22,9 @@ module.exports = function(sequelize, DataTypes) {
     },
     reps: {
       type: DataTypes.INTEGER
+    },
+    sets: {
+      type: DataTypes.INTEGER
     }
   }, {
     tableName: 'move',
