@@ -56,7 +56,12 @@ router.route('/:workoutid')
     db.Workout.findOne({
       where: {
         id: req.params.workoutid
-      }
+      },
+      include: [
+        {
+          model: db.Move
+        }
+      ]
     }).then(function (workout) {
       if (!workout) {
         res.json('Workout id does not exist in the database');

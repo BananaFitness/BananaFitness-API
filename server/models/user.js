@@ -34,6 +34,9 @@ module.exports = function(sequelize, DataTypes) {
     },
     classMethods: {
       associate: function(models) {
+        User.hasMany(models.Workout, {
+          foreignKey:'user_id'
+        });
         User.hasMany(models.Follow, {
           foreignKey: 'user_id'
         });

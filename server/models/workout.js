@@ -17,6 +17,9 @@ module.exports = function(sequelize, DataTypes) {
     tableName: 'workout',
     classMethods: {
       associate: function(models) {
+        Workout.hasMany(models.Move, {
+          foreignKey:'workout_id'
+        });
         Workout.belongsTo(models.User, {
           foreignKey: 'user_id',
           onDelete: 'cascade'
