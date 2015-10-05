@@ -6,13 +6,12 @@ router.route('/')
   // Creates a new workout for a user
   // When we create a workout, we'll have to make calls to create new moves
   .post(function (req, res) {
-    var user_id = (req.params.userid === 'me') ? req.user.id : req.params.userid;
-    if (!validator.isUUID(user_id)) {
+    if (!validator.isUUID(req.user.id)) {
       res.json('User id is not a valid UUID');
     }
     db.Workout.findOrCreate({
       where: {
-        user_id: user_id,
+        user_id: req.user.id,
         name: req.body.name
       }
     }).spread(function (workout, created) {
