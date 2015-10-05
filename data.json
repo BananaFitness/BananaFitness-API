@@ -14,13 +14,15 @@
               "name": "Pistol Squat",
               "category": "Legs",
               "weight": 25,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             },
             {
               "name": "Donkey Kicks",
               "category": "Legs",
               "weight": 35,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             }
           ]
         },
@@ -31,13 +33,15 @@
               "name": "Sumo Squat",
               "category": "Legs",
               "weight": 30,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             },
             {
               "name": "Inchworms",
               "category": "Arms",
               "weight": 45,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             }
           ]
         },
@@ -48,19 +52,22 @@
               "name": "Pushup",
               "category": "Arms",
               "weight": 10,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             },
             {
               "name": "Pullups",
               "category": "Core",
               "weight": 10,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             },
             {
               "name": "Crunches",
               "category": "Abs",
               "weight": 5,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             }
           ]
         }
@@ -80,13 +87,15 @@
               "name": "Duck Walk",
               "category": "Legs",
               "weight": 15,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             },
             {
               "name": "Star Jumps",
               "category": "Core",
               "weight": 15,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             }
           ]
         },
@@ -97,13 +106,15 @@
               "name": "Pushup",
               "category": "Arms",
               "weight": 5,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             },
             {
               "name": "Donkey Kicks",
               "category": "Legs",
               "weight": 25,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             }
           ]
         }
@@ -123,19 +134,22 @@
               "name": "Yankers",
               "category": "Arms",
               "weight": 15,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             },
             {
               "name": "Crackles",
               "category": "Core",
               "weight": 30,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             },
             {
               "name": "Painifier",
               "category": "Abs",
               "weight": 35,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             }
           ]
         },
@@ -146,13 +160,15 @@
               "name": "Pulldowns",
               "category": "Arms",
               "weight": 5,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             },
             {
               "name": "Pushdowns",
               "category": "Core",
               "weight": 20,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             }
           ]
         }
@@ -172,19 +188,22 @@
               "name": "Crazies",
               "category": "Chest",
               "weight": 45,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             },
             {
               "name": "Presses",
               "category": "Legs",
               "weight": 20,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             },
             {
               "name": "Killups",
               "category": "Core",
               "weight": 85,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             }
           ]
         },
@@ -195,19 +214,22 @@
               "name": "Fridgers",
               "category": "Biceps",
               "weight": 45,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             },
             {
               "name": "Ballers",
               "category": "Legs",
               "weight": 10,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             },
             {
               "name": "Blasters",
               "category": "Chest",
               "weight": 25,
-              "reps": 10
+              "reps": 10,
+              "sets": 3
             }
           ]
         }

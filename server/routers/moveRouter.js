@@ -14,7 +14,8 @@ router.route('/')
         name: req.body.name,
         category: req.body.category,
         weight: req.body.weight,
-        reps: req.body.reps
+        reps: req.body.reps,
+        sets: req.body.sets
       }
     }).spread(function (move, created) {
       if (!created) {
@@ -52,6 +53,9 @@ router.route('/edit')
       }
       if (req.body.reps) {
         move.reps = req.body.reps;
+      }
+      if (req.body.sets) {
+        move.sets = req.body.sets;
       }
       move.save().then(function () {
         res.json(move);
