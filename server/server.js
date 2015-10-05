@@ -5,7 +5,7 @@ var session = require('express-session');
 var db = require(__dirname + '/models/index');
 
 // If true, whole database is dropped on start
-var refreshData = false;
+var refreshData = true;
 // Sync the database models
 db.sequelize.sync({
   force: refreshData
