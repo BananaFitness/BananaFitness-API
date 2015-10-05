@@ -18,29 +18,34 @@ router.route('/:userid')
   // Gets workout by userid
   // If user does not exist, returns error message
   .get(function (req, res) {
-    if (!validator.isUUID(req.params.userid)) {
+    var user_id = (req.params.userid === 'me') ? req.user.id : req.params.userid;
+    if (!validator.isUUID(user_id)) {
       res.json('User id is not a valid UUID');
     }
-    db.User.findOne({
-      where: {
-        id: req.params.userid
-      }
-    }).then(function (user) {
-      if (!user) {
-        res.json('User id does not exist in the database');
-      }
-      db.Workout.findAll({
+    else{
+      db.User.findOne({
         where: {
-          user_id: user['id']
+          id: user_id
         }
-      }).then(function (workouts) {
-        if (workouts.length === 0) {
-          res.json('There are no workouts for this user');
+      }).then(function (user) {
+        if (!user) {
+          res.json('User id does not exist in the database');
         }
-        res.json(workouts);
+        else{
+        db.Workout.findAll({
+          where: {
+            user_id: user['id']
+          }
+        }).then(function (workouts) {
+          if (workouts.length === 0) {
+            res.json('There are no workouts for this user');
+          }
+          else{
+            res.json(workouts);
+          }
+        });}
       });
-    });
-
+    }
   });
 
 module.exports = router;

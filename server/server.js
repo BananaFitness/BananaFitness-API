@@ -79,14 +79,14 @@ app.use(express.static(__dirname + '/client'));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 
 app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', 'http://localhost:8100');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, X-AUTHENTICATION, X-IP, Content-Type, Accept');
   res.header('Access-Control-Allow-Credentials', true);
   next();
 });
 //Cookie parser
-app.use(cookieParser());
+app.use(cookieParser('keyboard cat'));
 // Configure the app to use bodyParser()
 // This will let us get the data from post
 app.use(bodyParser.json());
@@ -99,7 +99,7 @@ var authenticator = require('./authenticator');
 
 //Initialize passport
 app.use(authenticator.initialize());
-//app.use(authenticator.session());
+app.use(authenticator.session());
 
 // Set our port
 var port = process.env.PORT || 8080;
@@ -120,6 +120,7 @@ var followsRouter = require('./routers/followsRouter');
 app.use(function (req, res, next) {
   console.log('==========================================');
   console.log(req.method + ': ' + req.url);
+  console.log(req.session);
   next();
 });
 
@@ -131,15 +132,11 @@ app.get('/', function (req, res) {
   });
 });
 
-var isLoggedIn = function(req) {
-  return req.session ? !!req.session.user : false;
-};
-
 var checkUser = function(req, res, next){
-  if (!isLoggedIn(req)) {
-    res.redirect('/signin');
-  } else {
+  if (req.isAuthenticated()) {
     next();
+  } else {
+    res.status(404).end();
   }
 };
 

@@ -7,8 +7,8 @@ router.route('/signin')
   .post( authenticator.authenticate('local', 
     { failureRedirect: '/signin' }),
     function(req,res) {
-      req.session.user = req.user;
-      res.redirect('/');
+      req.session.userid = req.user.id;
+      res.end();
   });
 
 //Local Signup Route
