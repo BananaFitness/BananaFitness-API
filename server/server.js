@@ -1,5 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var db = require(__dirname + '/models/index');
 
 // If true, whole database is dropped on start
@@ -78,27 +80,26 @@ app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
-  // res.header('Access-Control-Allow-Origin', 'example.com');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, X-AUTHENTICATION, X-IP, Content-Type, Accept');
+  res.header('Access-Control-Allow-Credentials', true);
   next();
 });
-
+//Cookie parser
+app.use(cookieParser());
 // Configure the app to use bodyParser()
 // This will let us get the data from post
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-//Cookie parser
-app.use(require('cookie-parser')());
+app.use(bodyParser.urlencoded({ extended: true }));
 //Session secret
-app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false}));
 
 //Passport authenticator
 var authenticator = require('./authenticator');
 
 //Initialize passport
 app.use(authenticator.initialize());
-app.use(authenticator.session());
+//app.use(authenticator.session());
 
 // Set our port
 var port = process.env.PORT || 8080;
@@ -115,7 +116,6 @@ var workoutsRouter = require('./routers/workoutsRouter');
 var movesRouter = require('./routers/movesRouter');
 var followsRouter = require('./routers/followsRouter');
 
-
 // All of our routes will console log a status
 app.use(function (req, res, next) {
   console.log('==========================================');
@@ -131,23 +131,35 @@ app.get('/', function (req, res) {
   });
 });
 
+var isLoggedIn = function(req) {
+  return req.session ? !!req.session.user : false;
+};
+
+var checkUser = function(req, res, next){
+  if (!isLoggedIn(req)) {
+    res.redirect('/signin');
+  } else {
+    next();
+  }
+};
+
 // Routes for Authentication
 app.use('/auth', authRouter);
 // Routes for API/User
-app.use('/api/user', userRouter);
+app.use('/api/user', checkUser, userRouter);
 // Routes for API/Workout
-app.use('/api/workout', workoutRouter);
+app.use('/api/workout', checkUser, workoutRouter);
 // Routes for API/Move
-app.use('/api/move', moveRouter);
+app.use('/api/move', checkUser, moveRouter);
 // Routes for API/Follow
-app.use('/api/follow', followRouter);
+app.use('/api/follow', checkUser, followRouter);
 // Routes for API/User
-app.use('/api/users', usersRouter);
+app.use('/api/users', checkUser, usersRouter);
 // Routes for API/Workouts
-app.use('/api/workouts', workoutsRouter);
+app.use('/api/workouts', checkUser, workoutsRouter);
 // Routes for API/Moves
-app.use('/api/moves', movesRouter);
+app.use('/api/moves', checkUser, movesRouter);
 // Routes for API/Follows
-app.use('/api/follows', followsRouter);
+app.use('/api/follows', checkUser, followsRouter);
 
 module.exports = app;

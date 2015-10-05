@@ -7,6 +7,7 @@ router.route('/signin')
   .post( authenticator.authenticate('local', 
     { failureRedirect: '/signin' }),
     function(req,res) {
+      req.session.user = req.user;
       res.redirect('/');
   });
 
