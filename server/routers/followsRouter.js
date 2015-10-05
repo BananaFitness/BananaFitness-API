@@ -36,7 +36,8 @@ router.route('/:userid')
             });
           }
         }
-      });}
+      });
+    }
   });
 
 module.exports = router;
