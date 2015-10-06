@@ -6,7 +6,7 @@ router.route('/')
   // Creates new moves for a workout
   .post(function (req, res) {
     if (!validator.isUUID(req.body.workoutid)) {
-      res.json('User id is not a valid UUID');
+      res.json('Workout id is not a valid UUID');
     }
     db.Move.findOrCreate({
       where: {
