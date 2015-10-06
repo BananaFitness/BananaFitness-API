@@ -80,6 +80,16 @@ app.use(express.static(__dirname + '/client'));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 
 app.use(function(req, res, next) {
+  if (req.method === 'OPTIONS') {
+    var headers = {};
+      headers["Access-Control-Allow-Origin"] = "http://localhost:8100";
+      headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, DELETE, OPTIONS";
+      headers["Access-Control-Allow-Credentials"] = true;
+      headers["Access-Control-Max-Age"] = '86400'; // 24 hours
+      headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept";
+      res.writeHead(200, headers);
+      res.end();
+  }
   res.header('Access-Control-Allow-Origin', 'http://localhost:8100');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, X-AUTHENTICATION, X-IP, Content-Type, Accept');
@@ -136,7 +146,7 @@ app.get('/', function (req, res) {
 
 var checkUser = function(req, res, next){
   if (req.isAuthenticated()) {
-    next();
+    next();   
   } else {
     res.status(404).end();
   }
